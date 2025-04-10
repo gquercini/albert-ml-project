@@ -1,13 +1,11 @@
 # Y'a que la taille qui compte?
 
-Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à AlbertSchool dans le cadre du cours de _Data (Deploying an ML project)_ .
+Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à AlbertSchool dans le cadre du cours de _Data: Deploying an ML project_ .
 
 ## Datasets
 
-Téléchargement des données: (https://drive.google.com/drive/folders/1K4sXEjIcb7b2yzsQfOt80cdB0G69IDzj?usp=sharing)
-
 ```bash
-pip install foobar
+Téléchargement des données: https://drive.google.com/drive/folders/1K4sXEjIcb7b2yzsQfOt80cdB0G69IDzj?usp=sharing
 ```
 
 ## Glossaire datasets
