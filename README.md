@@ -5,7 +5,7 @@ Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à 
 ## Datasets
 
 ```bash
-Téléchargement des données: https://drive.google.com/drive/folders/1K4sXEjIcb7b2yzsQfOt80cdB0G69IDzj?usp=sharing
+Téléchargement des données: (https://drive.google.com/drive/folders/1K4sXEjIcb7b2yzsQfOt80cdB0G69IDzj?usp=sharing)
 ```
 
 ## Glossaire datasets
