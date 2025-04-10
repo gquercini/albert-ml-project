@@ -1,16 +1,16 @@
-# Foobar
+# Y'a que la taille qui compte?
 
-Foobar is a Python library for dealing with word pluralization.
+Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à AlbertSchool dans le cadre du cours de _Data (Deploying an ML project)_ .
 
-## Installation
+## Datasets
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Téléchargement des données: (https://drive.google.com/drive/folders/1K4sXEjIcb7b2yzsQfOt80cdB0G69IDzj?usp=sharing)
 
 ```bash
 pip install foobar
 ```
 
-## Usage
+## Glossaire datasets
 
 ```python
 import foobar
