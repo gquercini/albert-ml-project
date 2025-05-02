@@ -42,55 +42,74 @@ Le projet permettra aussi de *comparer deux lineups de joueurs* et de *prédire 
 - team, team_history, team_summary, team_details
 
 
-### Méthodes employées :
+## Méthodes employées
+Pour atteindre notre objectif, nous avons suivi les étapes suivantes :
 
-Pour atteindre cet objectif, nous allons :
+Nettoyage des données : suppression des colonnes inutiles, harmonisation des formats, traitement des valeurs manquantes.
 
-1.⁠ ⁠Nettoyer les datasets pour ne conserver que les informations pertinentes.
-2.⁠ ⁠Construire un dataset d'entraînement où chaque ligne représente une *combinaison réelle de 5 joueurs* associée à une équipe, une saison, et un résultat de match (victoire ou défaite).
-3.⁠ ⁠Aggréger les statistiques des 5 joueurs pour former un vecteur de caractéristiques représentatif de la composition.
-4.⁠ ⁠Entraîner un modèle de machine learning à prédire la probabilité de victoire en fonction des statistiques agrégées d'une lineup.
+Construction d’un dataset d’entraînement : chaque ligne représente une combinaison réelle de 5 joueurs, associée à une équipe, une saison, et un résultat de match (victoire ou défaite).
 
-Les données seront donc utilisées à la fois pour *construire les features d'entrée (X)* et pour définir la *variable cible (y = victoire/défaite)*.
+Agrégation des statistiques des 5 joueurs pour créer un vecteur de caractéristiques représentatif de la lineup.
 
-### Méthodes de machine learning utilisées : 
+Entraînement de modèles de machine learning afin de prédire la probabilité de victoire d’une composition en fonction de ses statistiques agrégées.
 
-Pour identifier la meilleure composition de joueurs par saison (la “dream team”), nous avons formulé le problème comme une classification binaire : prédire si une équipe gagne (1) ou perd (0) en fonction des caractéristiques de ses 5 joueurs.
+Les données sont donc utilisées à la fois pour :
 
-Nous avons sélectionné plusieurs modèles complémentaires, chacun ayant ses forces selon le volume de données, la performance attendue, et l’interprétabilité.
+Construire les features d’entrée (X)
 
-1.⁠ ⁠RandomForestClassifier (modèle principal de départ)
-→Il fonctionne très bien sur des données tabulaires avec peu de preprocessing.
-→Il permet une interprétation directe des variables importantes (features clés comme net_rating, usg_pct…).
+Définir la variable cible (y = victoire/défaite)
 
-✔️ Avantages :
-Résistant au surapprentissage.
-Pas besoin de scaler les données.
-Fonctionne bien même avec des features corrélées.
-Rapide à entraîner pour un premier benchmark.
+## Modèles de machine learning utilisés
+Nous avons formulé le problème comme une classification binaire : prédire si une équipe gagne (1) ou perd (0) selon les statistiques de ses 5 joueurs.
 
-2.⁠ ⁠LogisticRegression (baseline simple et interprétable)
-→Pour avoir un modèle de base interprétable.
-→Permet de vérifier si les features choisies ont un impact statistique fort.
+Nous avons sélectionné plusieurs modèles complémentaires, en tenant compte de la performance, de l’interprétabilité et du volume de données :
+
+1. RandomForestClassifier (modèle principal de départ)
+Un excellent choix pour les données tabulaires, même peu pré-traitées.
 
 ✔️ Avantages :
-Très rapide à entraîner.
-Les poids du modèle permettent une lecture directe des influences.
-Utile pour valider si le dataset est bien structuré avant des modèles plus complexes.
 
-3.⁠ XGBoostClassifier (modèle avancé pour optimiser les performances)
-→C’est un modèle de gradient boosting, reconnu pour sa précision exceptionnelle en machine learning.
-→Il excelle dans les compétitions Kaggle (et ton dataset en vient).
+Robuste face au surapprentissage
 
-✔️ Avantages :
-Performances élevées sur petits et moyens datasets.
-Résiste bien aux valeurs manquantes.
-Permet de gérer très finement les paramètres d’entraînement (early stopping, learning rate…).
-Fournit une importance des features et un gain associé à chaque split.
+Pas besoin de normaliser les données
 
-4.⁠ ⁠Multi-Layer Perceptron (MLPClassifier) — Réseau de neurones basique
-→Pour tester un modèle non linéaire plus profond, qui pourrait apprendre des synergies complexes entre joueurs (interactions non triviales).
+Tolérant aux features corrélées
+
+Rapide à entraîner
+
+Permet d’interpréter les features importantes (e.g. net_rating, usg_pct, etc.)
+
+2. LogisticRegression (baseline simple et interprétable)
+Modèle linéaire pour valider la qualité du dataset.
 
 ✔️ Avantages :
-Capable de modéliser des relations plus subtiles entre les stats (ex : “LeBron + Kyrie” ≠ “LeBron seul” + “Kyrie seul”).
-Si on alimente le modèle avec beaucoup de données (plusieurs saisons), il peut généraliser des patterns plus profonds.
+
+Très rapide à entraîner
+
+Interprétation facile des poids (influence directe des variables)
+
+Bon point de départ pour valider la pertinence des features
+
+3. XGBoostClassifier (modèle avancé orienté performance)
+Un modèle de gradient boosting réputé pour sa précision.
+
+✔️ Avantages :
+
+Très performant sur petits et moyens datasets
+
+Gère bien les valeurs manquantes
+
+Paramétrage fin (early stopping, learning rate, etc.)
+
+Importance des features et gain à chaque split fournis
+
+4. MLPClassifier (réseau de neurones multi-couches)
+Un modèle non-linéaire qui peut apprendre des synergies complexes entre joueurs.
+
+✔️ Avantages :
+
+Capable de modéliser des interactions subtiles (e.g. “LeBron + Kyrie” ≠ “LeBron seul” + “Kyrie seul”)
+
+Potentiel élevé avec des données issues de plusieurs saisons
+
+Peut généraliser des patterns profonds non triviaux
