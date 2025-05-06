@@ -16,7 +16,7 @@ Le projet repose sur un ensemble de fichiers issus de l’API de la NBA ou de so
 
 Ces données couvrent *plusieurs saisons NBA, permettent de relier les performances individuelles à des résultats collectifs, et sont utilisées pour analyser l’impact de compositions d’équipes. Ces fichiers contiennent des **statistiques individuelles et collectives, des **résultats de matchs, des **informations d’identité des joueurs et des équipes*, ainsi que des détails sur les compositions match par match.
 
-## PARTIE 1
+# PARTIE 1
 
 L’objectif du projet est de *prédire automatiquement la meilleure composition de 5 joueurs NBA ("dream team") par saison*, c’est-à-dire la combinaison qui maximise les chances de victoire de l'équipe.
 
@@ -25,9 +25,55 @@ L’objectif du projet est de *prédire automatiquement la meilleure composition
 - **all_seasons.csv** : statistiques par joueur et par saison (points, rebonds, passes, usage, efficacité au tir, etc.)
 - **game.csv** : résultats des matchs avec les équipes concernées et les scores.
 - **player.csv** : identifiants et noms des joueurs.
+- **common_player.csv** : infos liens joueurs et teams
 - **line_score.csv** : scores par équipe pour chaque match, utile pour valider les résultats.
+- **team.csv** : infos sur les teams
 
-## PARTIE 2
+## 📊 Feature Engineering
+
+1. **Stats normalisées**  
+   - `pts_per_game`, `reb_per_game`, `ast_per_game`  
+   Moyennes par match pour neutraliser l’effet du nombre de rencontres jouées.
+
+2. **Ratios avancés**  
+   - `ast_usg_ratio` = `ast_pct` / `usg_pct`  
+   - `reb_pct_sum`  = `oreb_pct` + `dreb_pct`  
+   Évaluent l’efficacité collective (création de jeu, impact au rebond).
+
+3. **Net Rating**  
+   Bilan offensif – bilan défensif par 100 possessions, indicateur d’impact global.
+
+4. **Poste primaire**  
+   Extraction directe de la colonne `position` pour obtenir 3 classes :  
+   - **G** (Guard)  
+   - **F** (Forward)  
+   - **C** (Center)  
+
+---
+
+## 🔍 Sélection des features
+
+1. On calcule la **corrélation** de chaque métrique avec le `win_rate`.  
+2. On **retient** les 5 variables les plus corrélées (absolu) pour entraîner le modèle.
+
+---
+
+## 🤖 Pipeline de modélisation
+
+Pour chaque saison **X** :
+
+1. **Entraînement**  
+   - On construit un jeu d’entraînement sur toutes les saisons ≠ X.  
+   - Chaque observation = une équipe + moyenne des 5 métriques pour ses 5 meilleurs scoreurs (by `pts`).  
+   - On apprend un **RandomForestRegressor** à prédire le `win_rate` d’une lineup.
+
+2. **Recherche de la Dream Team**  
+   - On définit un **pool réduit** de candidats par poste (top `net_rating`) pour limiter les combinaisons.  
+   - On génère **toutes les combinaisons** 2 Guards – 2 Forwards – 1 Center.  
+   - On agrège leurs 5 métriques et on utilise le modèle pour estimer leur `win_rate`.  
+   - On retient la composition dont la prédiction est la plus élevée.
+
+# PARTIE 2
 
 Le projet permettra aussi de *comparer deux lineups de joueurs* et de *prédire laquelle est la plus performante dans un match simulé*.
 
