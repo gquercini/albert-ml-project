@@ -84,8 +84,7 @@ Le projet permettra aussi de *comparer deux lineups de joueurs* et de *prédire 
 - inactive_player
 - other_stats
 - draft_combine_strat
-- common_players
-- team, team_history, team_summary, team_details
+- game_info, game_summary
 
 
 ## Méthodes employées
