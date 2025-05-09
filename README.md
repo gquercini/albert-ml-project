@@ -1,6 +1,6 @@
 # Y'a que la taille qui compte?
 
-Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à AlbertSchool dans le cadre du cours de _Data: Deploying an ML project_ .
+Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à AlbertSchool dans le cadre du cours de _Data: Deploying an ML project_ afin de prédire l'équipe de basketteurs idéale pour gagner un match.
 
 ### Datasets
 
