@@ -20,7 +20,7 @@ Ces données couvrent *plusieurs saisons NBA, permettent de relier les performan
 
 L’objectif du projet est de *prédire automatiquement la meilleure composition de 5 joueurs NBA ("dream team") par saison*, c’est-à-dire la combinaison qui maximise les chances de victoire de l'équipe.
 
-### Glossaire datasets PARTIE 1
+### Datasets
 
 - **all_seasons.csv** : statistiques par joueur et par saison (points, rebonds, passes, usage, efficacité au tir, etc.)
 - **game.csv** : résultats des matchs avec les équipes concernées et les scores.
@@ -77,32 +77,84 @@ Pour chaque saison **X** :
 
 Le projet permettra aussi de *comparer deux lineups de joueurs* et de *prédire laquelle est la plus performante dans un match simulé*.
 
+## Structure du code
 
-### Glossaire datasets PARTIE 2
+Le système utilise la classe `LineupPredictor` qui permet de comparer deux lineups NBA aléatoires et de prédire laquelle gagnerait. Voici ses fonctionnalités principales:
 
-- play_by_play
-- inactive_player
-- other_stats
-- draft_combine_strat
-- game_info, game_summary
+```python
+class LineupPredictor:
+    def __init__(self)
+    def load_data()
+    def _clean_and_prepare_data()
+    def _calculate_team_stats()
+    def _train_model()
+    def get_lineup_coherence(lineup)
+    def select_random_lineup()
+    def calculate_lineup_score(lineup)
+    def predict_winner(lineup1, lineup2)
+```
+
+## Datasets
+- `df_v1.csv`: Statistiques individuelles des joueurs par saison (dataset issu de la partie 1)
+- `df_draft_combine_cleaned.csv`: Données physiques des joueurs (combine)
+- `df_game_summary_cleaned.csv`: Résultats des matchs
+
+Les données sont filtrées pour ne conserver que les saisons après 2000.
+
+## Feature engineering
+
+Le système calcule plusieurs métriques avancées pour chaque joueur:
+
+1. **Statistiques par match**:
+   - `pts_per_game`, `reb_per_game`, `ast_per_game`
+
+2. **Métriques d'efficacité**:
+   - `efficiency` = `(pts + reb + ast) / gp`
+   - `scoring_efficiency` = `pts_per_game / usg_pct`
+   - `playmaking` = `ast_per_game * ast_pct`
+   - `ast_usg_ratio` = `ast_pct / usg_pct`
+   - `reb_pct_sum` = `oreb_pct + dreb_pct`
+
+3. **Classification des positions**: Simplification en 3 catégories:
+   - **G**: Guard
+   - **F**: Forward
+   - **C**: Center
+
+## Modèle de prédiction
+
+Un modèle RandomForest est entraîné pour prédire le taux de victoire (`win_rate`) d'un lineup basé sur les statistiques agrégées des joueurs:
+
+1. Sélection des 8 features les plus corrélées avec `win_rate`
+2. Agrégation des statistiques des 5 meilleurs scoreurs de chaque équipe
+3. Entraînement d'un `RandomForestRegressor` (200 arbres, profondeur max 10)
+
+## Système de sélection de lineup
+
+1. Sélection de 5 joueurs
+2. Extraction des statistiques individuelles et des données du combine
+3. Conservation des positions (G, F, C) pour analyse de cohérence
+
+## Système de bonus de cohérence
+
+Un bonus est appliqué au taux de victoire prédit selon la composition:
+- +15% pour lineup parfaite (2G, 2F, 1C)
+- +10% pour lineup avec les 3 positions
+- +5% pour lineup avec 2 positions
+- -5% pour lineup avec une seule position
+
+## Procédure de prédiction
+
+Pour comparer deux lineups aléatoires:
+1. Sélection de deux lineups avec `select_random_lineup()`
+2. Calcul des statistiques agrégées pour chaque lineup
+3. Prédiction du taux de victoire avec le modèle RandomForest
+4. Application du bonus de cohérence
+5. Comparaison des scores finaux
+6. Affichage détaillé des joueurs et statistiques du lineup gagnant
+
+Le système fournit une comparaison objective basée sur les statistiques avancées tout en valorisant la complémentarité des positions au sein d'une équipe.
 
 
-## Méthodes employées
-Pour atteindre notre objectif, nous avons suivi les étapes suivantes :
-
-Nettoyage des données : suppression des colonnes inutiles, harmonisation des formats, traitement des valeurs manquantes.
-
-Construction d’un dataset d’entraînement : chaque ligne représente une combinaison réelle de 5 joueurs, associée à une équipe, une saison, et un résultat de match (victoire ou défaite).
-
-Agrégation des statistiques des 5 joueurs pour créer un vecteur de caractéristiques représentatif de la lineup.
-
-Entraînement de modèles de machine learning afin de prédire la probabilité de victoire d’une composition en fonction de ses statistiques agrégées.
-
-Les données sont donc utilisées à la fois pour :
-
-Construire les features d’entrée (X)
-
-Définir la variable cible (y = victoire/défaite)
 
 ## Modèles de machine learning utilisés
 Nous avons formulé le problème comme une classification binaire : prédire si une équipe gagne (1) ou perd (0) selon les statistiques de ses 5 joueurs.
