@@ -14,13 +14,13 @@ Téléchargement des données:
 ```bash
 https://drive.google.com/drive/folders/1K4sXEjIcb7b2yzsQfOt80cdB0G69IDzj?usp=sharing
 ```
-Le projet repose sur un ensemble de fichiers issus de l’API de la NBA ou de sources publiques NBA, portant sur plusieurs saisons. Les données sont structurées autour de trois axes :
+Le projet repose sur un ensemble de fichiers issus de l’API de la NBA, de Kaggle ou de sources publiques NBA, portant sur plusieurs saisons. Les données sont structurées autour de trois axes :
 
 - *Statistiques individuelles des joueurs* (all_seasons.csv) : points, passes, rebonds, efficacité au tir, rating d’impact, etc.
 - *Résultats de match* (game.csv, line_score.csv) : scores finaux, identifiants d’équipes, issue du match.
 - *Référentiels d'identité* (player.csv) : identifiants et noms complets des joueurs.
 
-Ces données couvrent *plusieurs saisons NBA, permettent de relier les performances individuelles à des résultats collectifs, et sont utilisées pour analyser l’impact de compositions d’équipes. Ces fichiers contiennent des **statistiques individuelles et collectives, des **résultats de matchs, des **informations d’identité des joueurs et des équipes*, ainsi que des détails sur les compositions match par match.
+Ces données couvrent plusieurs saisons NBA, permettent de relier les performances individuelles à des résultats collectifs, et sont utilisées pour analyser l’impact de compositions d’équipes. Ces fichiers contiennent des **statistiques individuelles et collectives**, des **résultats de match**s, des **informations d’identité des joueurs et des équipes**, ainsi que des détails sur les compositions match par match.
 
 # PARTIE 1
 
