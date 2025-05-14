@@ -2,6 +2,12 @@
 
 Lataillequi est un projet réalisé en 2e année de Bachelor Business & Data à AlbertSchool dans le cadre du cours de _Data: Deploying an ML project_ afin de prédire l'équipe de basketteurs idéale pour gagner un match.
 
+### Présentation
+
+```bash
+https://www.canva.com/design/DAGnVLwCuhw/JlsmOdTvbZPZ0pkygkcseA/edit?utm_content=DAGnVLwCuhw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+```
+
 ### Datasets
 
 Téléchargement des données: 
